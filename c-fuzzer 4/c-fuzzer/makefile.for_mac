@@ -1,0 +1,27 @@
+CC = g++
+CFLAGS = -std=c++17 -Wall -Wextra -pedantic
+SRC_DIR = ./src
+HEADER_DIR = ./src/headers
+BUILD_DIR = .
+EXECUTABLE = fuzzer
+BOOST_DIR = /opt/homebrew/opt/boost/include
+BOOST_LIB = -L/opt/homebrew/opt/boost/lib -lboost_system -lboost_filesystem
+
+# List of all source files
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+# List of all header files
+HEADERS = $(wildcard $(HEADER_DIR)/*.hpp)
+# List of all object files
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES)) 
+
+# Build the executable
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(CFLAGS) $^ -o $@ #$(BOOST_LIB)
+
+# Build object files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(BOOST_DIR)
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)/*.o $(EXECUTABLE)

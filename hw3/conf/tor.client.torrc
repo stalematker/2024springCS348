@@ -1,0 +1,5 @@
+ORPort 0
+DirPort 0
+ClientOnly 1
+SocksPort 9000
+ConfluxEnabled 0
